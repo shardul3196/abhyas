@@ -66,10 +66,10 @@ export const Navbar: React.FC = () => {
             </div>
             <div>
               <span className="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-slate-50 warm:text-warm-950 block leading-tight">
-                SSC CGL Prep
+                Abhyas
               </span>
               <span className="text-[11px] font-medium tracking-wide text-indigo-600 dark:text-indigo-400 warm:text-warm-700 uppercase">
-                Local-First Platform
+                SSC CGL Prep
               </span>
             </div>
           </div>

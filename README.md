@@ -1,6 +1,6 @@
-# SSC CGL Local-First Mock Test & Analytics Platform
+# Abhyas (अभ्यास)
 
-A local-first, distraction-free SSC CGL mock examination runner and deep analytics platform designed to run locally on your host machine and be accessed seamlessly by a candidate on a tablet (iPad, Android tablet, Surface) over the local Wi-Fi LAN.
+> A distraction-free, local-first SSC CGL mock examination runner and deep analytics platform designed to run locally on your host machine and be accessed seamlessly on a tablet (iPad, Android, Surface) over the local Wi-Fi LAN.
 
 ---
 
