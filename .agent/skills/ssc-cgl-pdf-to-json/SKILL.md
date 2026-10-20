@@ -48,30 +48,42 @@ Generating 100 complete questions with step-by-step solutions and LaTeX in a sin
 ## Content & Formatting Rules for Every Question
 
 1. **Strict Schema:** Every question object MUST contain:
-   - `q_no` (int, 1-indexed, e.g. `1` to `100`)
-   - `section` (Must be strictly one of: `"General Intelligence & Reasoning"`, `"General Awareness"`, `"Quantitative Aptitude"`, `"English Comprehension"`)
-   - `topic` (e.g., `"Percentage"`, `"Geometry"`, `"Syllogism"`, `"Polity"`, `"Error Spotting"`, `"Algebra"`, `"History"`)
+   - `q_no` (int, 1-indexed, e.g. `1` to `N`)
+   - `section` (Standard tier-1 full mock: `"General Intelligence & Reasoning"`, `"General Awareness"`, `"Quantitative Aptitude"`, `"English Comprehension"`. Chapter-wise/sectional mock: Use document or user specified sections such as `"Clock"`, `"Calendar"`, etc.)
+   - `topic` (e.g., `"Percentage"`, `"Geometry"`, `"Syllogism"`, `"Polity"`, `"Error Spotting"`, `"Algebra"`, `"History"`, `"Hands of Clock"`, `"Day of Week"`)
    - `sub_topic` (Specific concept string, or `null`)
    - `question_text` (Markdown + LaTeX string)
-   - `image_path` (`"uploads/q_<q_no>.png"` if the question relies on a visual figure/diagram/non-tabular drawing; otherwise `null`)
+   - `image_path` (`"uploads/q_<q_no>.png"` if the question relies on a visual figure/diagram/non-tabular drawing; `null` if no diagram or if the user requested ignoring images)
    - `options` (Object with keys `"A"`, `"B"`, `"C"`, `"D"`)
    - `correct_option` (`"A"`, `"B"`, `"C"`, or `"D"`)
    - `explanation` (Detailed step-by-step Markdown + LaTeX explanation)
 
-2. **LaTeX Escaping in JSON:**
+2. **LaTeX Escaping & Mixed Fractions in JSON:**
    - Wrap all mathematical expressions, numbers with units, formulas, and symbols in `$inline$` or `$$display$$`.
    - **Double-escape backslashes** when writing JSON strings: `\\frac{a}{b}`, `\\sqrt{x}`, `\\times`, `\\theta`, `20\\%`, `\\text{CP}`.
+   - For mixed fractions frequently found in clock/calendar questions (e.g., $43\frac{7}{11}$), format them cleanly in LaTeX as `$43\\frac{7}{11}$`.
 
-3. **High-Yield Explanations:**
+3. **Multi-Section & Chapter-Wise Exams:**
+   - When converting subject-specific or multi-topic chapter PDFs (e.g., "Clock and Calendar"), respect the sub-sections specified in the document or requested by the user.
+   - Group and sequence questions logically so that all questions of one section appear consecutively, allowing the exam UI to render clean section tabs.
+   - For verification of exams with counts other than 100, pass `--expected-count <N>` to `verify`.
+
+4. **Python Environment Execution:**
+   - Always run the helper script using the project's virtual environment:
+     - Windows: `.venv\Scripts\python.exe scripts/json_builder.py ...`
+     - Linux/macOS: `.venv/bin/python scripts/json_builder.py ...`
+   - This ensures `pydantic` and other required packages are available without environment errors.
+
+5. **High-Yield Explanations:**
    - If the PDF contains solutions, reformat them into structured Markdown with LaTeX.
    - If the PDF only contains questions or an answer key, solve every question step-by-step.
    - For **Quantitative Aptitude** and **Reasoning**, always include the **Exam Shortcut / Ratio / Elimination Method** so students learn how to solve the problem in under 45 seconds.
 
-4. **Data Interpretation Tables:**
+6. **Data Interpretation Tables & Diagrams:**
    - Convert tables in Data Interpretation or Reasoning into clean **Markdown tables** inside `question_text`.
-   - **Do NOT** flag standard tabular questions as images unless there are complex geometric drawings or non-textual figures.
+   - If the user explicitly asks to ignore image questions, represent the geometry or clock hands textually in `question_text` and set `image_path: null`.
 
-5. **Bilingual PDFs:**
+7. **Bilingual PDFs:**
    - SSC CGL exam papers are often bilingual (English & Hindi).
    - Ignore the Hindi text; extract only the English version of questions and options (unless the question specifically tests Hindi language/translation).
 

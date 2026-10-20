@@ -31,13 +31,20 @@ VALID_SECTIONS = [
     "General Awareness",
     "Quantitative Aptitude",
     "English Comprehension",
+    "Clock",
+    "Calendar",
 ]
 
-SectionType = Literal[
-    "General Intelligence & Reasoning",
-    "General Awareness",
-    "Quantitative Aptitude",
-    "English Comprehension",
+SectionType = Union[
+    Literal[
+        "General Intelligence & Reasoning",
+        "General Awareness",
+        "Quantitative Aptitude",
+        "English Comprehension",
+        "Clock",
+        "Calendar",
+    ],
+    str,
 ]
 
 OptionLetter = Literal["A", "B", "C", "D"]
@@ -45,7 +52,7 @@ OptionLetter = Literal["A", "B", "C", "D"]
 
 class QuestionSchema(BaseModel):
     q_no: int = Field(..., ge=1, description="1-indexed question number")
-    section: SectionType
+    section: str = Field(..., min_length=1, description="Exam section")
     topic: str = Field(..., min_length=1, description="Question topic / category")
     sub_topic: Optional[str] = Field(default=None, description="Specific sub-concept or null")
     question_text: str = Field(..., min_length=1, description="Question statement (Markdown + LaTeX)")
