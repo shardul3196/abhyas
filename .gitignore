@@ -1,0 +1,33 @@
+# Python virtual environments & bytecode
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.pytest_cache/
+
+# Frontend dependencies & build outputs
+node_modules/
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# SQLite temporary WAL / SHM files (flushed via checkpoint before commit)
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Explicitly keep local-first SQLite DB and uploads tracked by Git
+!cgl_prep.db
+!uploads/
+!uploads/**
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+.env
+.env.local
